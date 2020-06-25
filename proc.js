@@ -3,6 +3,12 @@ function clearResultSpace(){
 	while(rs.firstChild)rs.removeChild(rs.firstChild);
 }
 
+async function validateUsername(username){
+	response= await fetch(`https://codeforces.com/api/user.info?handles=${username}`);
+	if(response.status==200)return true;
+	else return false;
+}
+
 function getECRList(){
 	return fetch(`https://codeforces.com/api/contest.list`)
 	.then(response=>{
@@ -33,10 +39,19 @@ function getECRList(){
 
 
 
-function exec(){
+async function exec(){
 	clearResultSpace();
 
 	var username=document.form.username.value;
+	
+
+	var st=await validateUsername(username);
+	if(!st){
+		rs=document.getElementById("resultSpace");
+		rs.innerHTML="<p>invalid username</p>";
+		return;
+	}
+	
 
 	getECRList()
 	.then(arr=>{

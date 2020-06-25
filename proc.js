@@ -46,7 +46,7 @@ async function makeTable(){
 	cell.style.backgroundColor="#ddd";
 	for(var i=0;i<7;i++){
 		cell=row.insertCell(-1);
-		cell.appendChild(document.createTextNode(""+(i+1)));
+		cell.appendChild(document.createTextNode(String.fromCharCode(65+i)));
 		cell.style.backgroundColor="#ddd";
 	}
 		

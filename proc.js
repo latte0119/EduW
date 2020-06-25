@@ -44,7 +44,7 @@ async function makeTable(){
 	cell=row.insertCell(-1);
 	cell.appendChild(document.createTextNode("Contest"));
 	cell.style.backgroundColor="#ddd";
-	for(var i=0;i<7;i++){
+	for(var i=0;i<9;i++){
 		cell=row.insertCell(-1);
 		cell.appendChild(document.createTextNode(String.fromCharCode(65+i)));
 		cell.style.backgroundColor="#ddd";
@@ -54,22 +54,13 @@ async function makeTable(){
 		row=table.insertRow(-1);
 		cell=row.insertCell(-1);
 		cell.appendChild(document.createTextNode("ECR"+(i+1)));	
-		for(var j=0;j<7;j++){
+		for(var j=0;j<9;j++){
 			cell=row.insertCell(-1);
 		}
 	}
 
 	return table;
 }
-
-/*
-async function binary_search(arr,x){
-	
-
-	
-
-}
-*/
 
 function binary_search(arr,x){
 	var lb=-1,ub=arr.length;
@@ -95,7 +86,6 @@ async function uku(table,arr){
 			var k= binary_search(arr,p.contestId);
 			if(k==-1)continue;
 
-			if(39<=k&&k<=40)continue;
 			var pos=p.index.charCodeAt(0)-65;
 
 			const a1=document.createElement("a");

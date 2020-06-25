@@ -1,3 +1,6 @@
+const ACColor="rgb(0, 187, 0)";
+const WAColor="rgb(187, 0, 0)";
+
 async function clearResultSpace(){
 	rs=document.getElementById("resultSpace");
 	while(rs.firstChild)rs.removeChild(rs.firstChild);
@@ -74,8 +77,8 @@ function binary_search(arr,x){
 }
 
 
-async function uku(table,arr){
-	fetch(`https://codeforces.com/api/problemset.problems`)
+async function fillTable(table,arr){
+	return fetch(`https://codeforces.com/api/problemset.problems`)
 	.then(response=>{
 		return response.json();
 	})
@@ -93,9 +96,48 @@ async function uku(table,arr){
 			a1.innerText=p.index+"."+p.name;
 			table.rows[k+1].cells[pos+1].appendChild(a1);
 		}
+		return table;
+	});
+}
 
+async function paintTable(table,arr,username){
+	table=await fetch(`https://codeforces.com/api/user.status?handle=${username}`)
+	.then(response=>{
+		return response.json();
+	})
+	.then(json=>{
+		for(var i in json.result){
+			s=json.result[i];
+
+			if(s.problem.index.length>=2&&s.problem.index[1]!="2")continue;
+			var k=binary_search(arr,s.contestId);
+			if(k==-1)continue;
+			var pos=s.problem.index.charCodeAt(0)-65;
+
+			cell=table.rows[k+1].cells[pos+1];
+
+			if(s.verdict=="OK"){
+				cell.style.backgroundColor=ACColor;
+			}
+			else if(cell.style.backgroundColor!=ACColor){
+				cell.style.backgroundColor=WAColor;
+			}
+		}
+		return table;
 	});
 
+	for(var i=0;i<arr.length;i++){
+		var ok=true;
+		for(var j=1;j<table.rows[i].cells.length;j++){
+			cell=table.rows[i+1].cells[j];
+
+			if(cell.innerHTML=="")continue;
+			if(cell.style.backgroundColor==ACColor)continue;
+			ok=false;
+		}
+		if(ok)table.rows[i+1].cells[0].style.backgroundColor=ACColor;
+	}
+	return table;
 }
 
 async function exec(){
@@ -114,7 +156,9 @@ async function exec(){
 	arr=await getECRList();
 	table=await makeTable();
 
-	await uku(table,arr);
+	table=await fillTable(table,arr);
+	table=await paintTable(table,arr,username);
+
 	document.getElementById("resultSpace").appendChild(table);
 	
 }

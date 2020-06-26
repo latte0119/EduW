@@ -10,3 +10,6 @@ div#header{
 	border-left: 10px solid #31a9ee;
 	border-bottom: 1px dashed #31a9ee;
 }
+a{
+	text-decoration: none;
+}

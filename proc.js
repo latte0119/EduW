@@ -1,5 +1,5 @@
-const ACColor="rgb(0, 187, 0)";
-const WAColor="rgb(187, 0, 0)";
+const ACColor="rgb(147, 196, 126)";
+const WAColor="rgb(187, 141, 118)";
 
 async function clearResultSpace(){
 	rs=document.getElementById("resultSpace");
